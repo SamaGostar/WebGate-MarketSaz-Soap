@@ -1,6 +1,6 @@
 <?php
 
-class ControllerPaymentzarinpalwg extends Controller {
+class ControllerPaymentzarinpalzg extends Controller {
 	protected function index() {
 
 
@@ -22,7 +22,7 @@ class ControllerPaymentzarinpalwg extends Controller {
 		}
 		
 		$this->data['Amount'] = @$this->currency->format($order_info['total'], $order_info['currency'], $order_info['value'], FALSE);
-		$this->data['PIN']=$this->config->get('zarinpalwg_PIN');
+		$this->data['PIN']=$this->config->get('zarinpalzg_PIN');
 		
 		$this->data['return'] = $this->url->https('checkout/success');
 		$this->data['cancel_return'] = $this->url->https('checkout/payment');
@@ -35,7 +35,7 @@ class ControllerPaymentzarinpalwg extends Controller {
 		die( "Can not connect to zarinpal.<br>" );
 
 		$amount = intval($this->data['Amount'])/10;
-		$callbackUrl = $this->url->https('payment/zarinpalwg/callback&order_id=' . $encryption->encrypt($this->session->data['order_id']));
+		$callbackUrl = $this->url->https('payment/zarinpalzg/callback&order_id=' . $encryption->encrypt($this->session->data['order_id']));
 		
 		$res=$client->PaymentRequest(
 			array(
@@ -50,7 +50,7 @@ class ControllerPaymentzarinpalwg extends Controller {
 		
 		if($res->Status == 100){
 
-		$this->data['action'] = "https://www.zarinpal.com/pg/StartPay/" . $res->Authority . "/";
+		$this->data['action'] = "https://www.zarinpal.com/pg/StartPay/" . $res->Authority . "/ZarinGate";
 		
 		} else {
 			
@@ -61,7 +61,7 @@ class ControllerPaymentzarinpalwg extends Controller {
 //
 		
 		$this->id       = 'payment';
-		$this->template = $this->config->get('config_template') . 'payment/zarinpalwg.tpl';
+		$this->template = $this->config->get('config_template') . 'payment/zarinpalzg.tpl';
 		
 		$this->render();		
 }
@@ -106,7 +106,7 @@ function verify_payment($authority, $amount){
 			{echo  "Error: can not connect to zarinpal.<br>";return false;}
 		
 		else {
-			$this->data['PIN'] = $this->config->get('zarinpalwg_PIN');
+			$this->data['PIN'] = $this->config->get('zarinpalzg_PIN');
 			$res = $client->PaymentVerification(
 			array(
 					'MerchantID'	 => $this->data['PIN'] ,
@@ -142,7 +142,7 @@ function verify_payment($authority, $amount){
 		$au = @$this->request->get['Authority'];
 		$st = @$this->request->get['Status'];
 		$order_id = $encryption->decrypt(@$this->request->get['order_id']);
-		$MerchantID=$this->config->get('zarinpalwg_PIN');
+		$MerchantID=$this->config->get('zarinpalzg_PIN');
 		$debugmod=false;
 		
 		$this->load->model('checkout/order');
@@ -153,7 +153,7 @@ function verify_payment($authority, $amount){
 		
 		if(($this->verify_payment($au, $amount)) ) {
 		
-						$this->model_checkout_order->confirm($order_id, $this->config->get('zarinpalwg_order_status_id'),'&#1605;&#1575;&#1585;&#1607; &#1585;&#1587;&#1610;&#1583; &#1583;&#1610;&#1580;&#1610;&#1578;&#1575;&#1604;&#1610; &#1576;&#1575;&#1606;&#1705; &#1587;&#1575;&#1605;&#1575;&#1606; Authority: '.$au);
+						$this->model_checkout_order->confirm($order_id, $this->config->get('zarinpalzg_order_status_id'),'&#1605;&#1575;&#1585;&#1607; &#1585;&#1587;&#1610;&#1583; &#1583;&#1610;&#1580;&#1610;&#1578;&#1575;&#1604;&#1610; &#1576;&#1575;&#1606;&#1705; &#1587;&#1575;&#1605;&#1575;&#1606; Authority: '.$au);
 						
 						
 						

@@ -1,11 +1,11 @@
 <?php 
 
 
-class ControllerPaymentzarinpalwg extends Controller {
+class ControllerPaymentzarinpalzg extends Controller {
 	private $error = array(); 
 
 	public function index() {
-		$this->load->language('payment/zarinpalwg');
+		$this->load->language('payment/zarinpalzg');
 
 
 		$this->document->title = $this->language->get('heading_title');
@@ -15,7 +15,7 @@ class ControllerPaymentzarinpalwg extends Controller {
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->validate())) {
 			$this->load->model('setting/setting');
 			
-			$this->model_setting_setting->editSetting('zarinpalwg', $this->request->post);				
+			$this->model_setting_setting->editSetting('zarinpalzg', $this->request->post);				
 			
 			$this->session->data['success'] = $this->language->get('text_success');
 
@@ -59,46 +59,46 @@ class ControllerPaymentzarinpalwg extends Controller {
    		);
 
    		$this->document->breadcrumbs[] = array(
-       		'href'      => $this->url->https('payment/zarinpalwg'),
+       		'href'      => $this->url->https('payment/zarinpalzg'),
        		'text'      => $this->language->get('heading_title'),
       		'separator' => ' :: '
    		);
 				
-		$this->data['action'] = $this->url->https('payment/zarinpalwg');
+		$this->data['action'] = $this->url->https('payment/zarinpalzg');
 		
 		$this->data['cancel'] = $this->url->https('extension/payment');
 
-		if (isset($this->request->post['zarinpalwg_PIN'])) {
-			$this->data['zarinpalwg_PIN'] = $this->request->post['zarinpalwg_PIN'];
+		if (isset($this->request->post['zarinpalzg_PIN'])) {
+			$this->data['zarinpalzg_PIN'] = $this->request->post['zarinpalzg_PIN'];
 		} else {
-			$this->data['zarinpalwg_PIN'] = $this->config->get('zarinpalwg_PIN');
+			$this->data['zarinpalzg_PIN'] = $this->config->get('zarinpalzg_PIN');
 		}
 		
 		
-		if (isset($this->request->post['zarinpalwg_order_status_id'])) {
-			$this->data['zarinpalwg_order_status_id'] = $this->request->post['zarinpalwg_order_status_id'];
+		if (isset($this->request->post['zarinpalzg_order_status_id'])) {
+			$this->data['zarinpalzg_order_status_id'] = $this->request->post['zarinpalzg_order_status_id'];
 		} else {
-			$this->data['zarinpalwg_order_status_id'] = $this->config->get('zarinpalwg_order_status_id'); 
+			$this->data['zarinpalzg_order_status_id'] = $this->config->get('zarinpalzg_order_status_id'); 
 		} 
 
 		$this->load->model('localisation/order_status');
 		
 		$this->data['order_statuses'] = $this->model_localisation_order_status->getOrderStatuses();
 		
-		if (isset($this->request->post['zarinpalwg_status'])) {
-			$this->data['zarinpalwg_status'] = $this->request->post['zarinpalwg_status'];
+		if (isset($this->request->post['zarinpalzg_status'])) {
+			$this->data['zarinpalzg_status'] = $this->request->post['zarinpalzg_status'];
 		} else {
-			$this->data['zarinpalwg_status'] = $this->config->get('zarinpalwg_status');
+			$this->data['zarinpalzg_status'] = $this->config->get('zarinpalzg_status');
 		}
 		
-		if (isset($this->request->post['zarinpalwg_sort_order'])) {
-			$this->data['zarinpalwg_sort_order'] = $this->request->post['zarinpalwg_sort_order'];
+		if (isset($this->request->post['zarinpalzg_sort_order'])) {
+			$this->data['zarinpalzg_sort_order'] = $this->request->post['zarinpalzg_sort_order'];
 		} else {
-			$this->data['zarinpalwg_sort_order'] = $this->config->get('zarinpalwg_sort_order');
+			$this->data['zarinpalzg_sort_order'] = $this->config->get('zarinpalzg_sort_order');
 		}
 		
 		$this->id       = 'content';
-		$this->template = 'payment/zarinpalwg.tpl';
+		$this->template = 'payment/zarinpalzg.tpl';
 		$this->layout   = 'common/layout';
 		
  		$this->render();
@@ -106,11 +106,11 @@ class ControllerPaymentzarinpalwg extends Controller {
 
 	private function validate() {
 
-		if (!$this->user->hasPermission('modify', 'payment/zarinpalwg')) {
+		if (!$this->user->hasPermission('modify', 'payment/zarinpalzg')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 		
-		if (!@$this->request->post['zarinpalwg_PIN']) {
+		if (!@$this->request->post['zarinpalzg_PIN']) {
 			$this->error['PIN'] = $this->language->get('error_PIN');
 		}
 

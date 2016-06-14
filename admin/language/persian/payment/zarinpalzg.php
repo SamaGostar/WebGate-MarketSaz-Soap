@@ -2,7 +2,7 @@
 
 
 // Heading
-$_['heading_title']       = 'زرين پال - وب گیت';
+$_['heading_title']       = 'زرين پال - زرین گیت';
 
 // Text 
 $_['text_payment']        = 'پرداخت';
