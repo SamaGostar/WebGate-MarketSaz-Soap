@@ -29,14 +29,14 @@ class ControllerPaymentzarinpalwg extends Controller {
 
 		$this->data['back'] = $this->url->https('checkout/payment');
 
-		$client = new SoapClient("https://de.zarinpal.com/pg/services/WebGate/wsdl");
+		$client = new SoapClient("https://www.zarinpal.com/pg/services/WebGate/wsdl");
 
 	if((!$client))
 		die( "Can not connect to zarinpal.<br>" );
 
 		$amount = intval($this->data['Amount'])/10;
-		$callbackUrl = $this->url->https('payment/zarinpalwg/callback&order_id=' . $encryption->encrypt($this->session->data['order_id']));
-		
+		$callbackUrl = $this->url->http('payment/zarinpalwg/callback&order_id=' . $encryption->encrypt($this->session->data['order_id']));
+		//print_r(urldecode($callbackUrl)) ; exit;
 		$res=$client->PaymentRequest(
 			array(
 					'MerchantID' 	=> $this->data['PIN'] ,
@@ -44,10 +44,10 @@ class ControllerPaymentzarinpalwg extends Controller {
 					'Description' 	=> ' خريد شماره: '.$order_info['order_id'] ,
 					'Email' 		=> '' ,
 					'Mobile' 		=> '' ,
-					'CallbackURL' 	=> $callbackUrl
+					'CallbackURL' 	=> (htmlspecialchars_decode($callbackUrl))
 
 				));
-		
+
 		if($res->Status == 100){
 
 		$this->data['action'] = "https://www.zarinpal.com/pg/StartPay/" . $res->Authority . "/";
@@ -90,7 +90,7 @@ class ControllerPaymentzarinpalwg extends Controller {
 			break;
 		
 		default :
-			echo "&#1582;&#1591;&#1575;&#1740; &#1606;&#1575;&#1605;&#1588;&#1582;&#1589;";
+			echo "خطا نامشخص";
 			break;
 	}	
 	
@@ -100,7 +100,7 @@ class ControllerPaymentzarinpalwg extends Controller {
 function verify_payment($authority, $amount){
 
 	if($authority){
-		$client = new SoapClient("https://de.zarinpal.com/pg/services/WebGate/wsdl");
+		$client = new SoapClient("https://www.zarinpal.com/pg/services/WebGate/wsdl");
 		
 		if ((!$client))
 			{echo  "Error: can not connect to zarinpal.<br>";return false;}
@@ -113,14 +113,16 @@ function verify_payment($authority, $amount){
 					'Authority' 	 => $authority ,
 					'Amount'	 	=> $amount
 				));
+				
 			
-			$this->CheckState($res->Status);
+			
 			
 			if($res->Status == 100)
 				return true;
 
 			else {
 				return false;
+				$this->CheckState($res->Status);
 				echo'ERR'.$res->Status;
 			}
 		
