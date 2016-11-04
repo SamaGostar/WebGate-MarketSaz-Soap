@@ -1,3 +1,4 @@
+<script type="text/javascript" src="https://cdn.zarinpal.com/zarinak/v1/checkout.js"></script>
 <div class="buttons">
   <table>
     <tr>
@@ -8,6 +9,8 @@
 </div>
 <script type="text/javascript"><!--
 function confirmSubmit() {
-			window.location='<?php echo $action; ?>';return false;
+			Zarinak.setAuthority( '<?= $action ?>');
+			Zarinak.open();
+			return false;
 }
 //--></script>
