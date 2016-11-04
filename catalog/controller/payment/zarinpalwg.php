@@ -48,9 +48,9 @@ class ControllerPaymentzarinpalwg extends Controller {
 
 				));
 
-		if($res->Status == 100){
-
-		$this->data['action'] = "https://www.zarinpal.com/pg/StartPay/" . $res->Authority . "/";
+		if($res->Status == 100)
+		{
+			$this->data['action'] = $res->Authority;
 		
 		} else {
 			
@@ -63,7 +63,8 @@ class ControllerPaymentzarinpalwg extends Controller {
 		$this->id       = 'payment';
 		$this->template = $this->config->get('config_template') . 'payment/zarinpalwg.tpl';
 		
-		$this->render();		
+		$this->render();
+		
 }
 
 	private function CheckState($status) {
